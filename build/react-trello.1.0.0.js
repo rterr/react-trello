@@ -58,10 +58,10 @@
 	};
 	
 	var List = function List(props) {
-	    // var cards = [];
-	    // for (var i=0; i<3; i++) {
-	    //     cards.push(<Card />);
-	    // }
+	    var myCards = [];
+	    for (var i = 0; i < props.cards.length; i++) {
+	        myCards.push(React.createElement(Card, { text: props.cards[i] }));
+	    }
 	    return React.createElement(
 	        'div',
 	        { className: 'list' },
@@ -70,22 +70,16 @@
 	            { className: 'list-title' },
 	            props.title
 	        ),
-	        props.cards,
-	        '// ',
-	        React.createElement(Card, { text: 'I am card one!' }),
-	        '// ',
-	        React.createElement(Card, { text: 'I am card two!' }),
-	        '// ',
-	        React.createElement(Card, { text: 'I am card three!' })
+	        myCards
 	    );
 	};
 	
 	var Board = function Board(props) {
-	    // var lists = [];
+	    var myLists = [];
 	    // lists.push(<List title="List One" />);
-	    // for (var i=0; i<3; i++) {
-	    //     lists.push(<List />);
-	    // }
+	    for (var i = 0; i < props.lists.length; i++) {
+	        myLists.push(React.createElement(List, { title: props.lists[i].listTitle, cards: props.lists[i].listCards }));
+	    }
 	    return React.createElement(
 	        'div',
 	        { className: 'board' },
@@ -94,18 +88,27 @@
 	            { className: 'board-title' },
 	            props.title
 	        ),
-	        props.lists,
-	        '// ',
-	        React.createElement(List, { title: 'List One' }),
-	        '// ',
-	        React.createElement(List, { title: 'List Two' }),
-	        '// ',
-	        React.createElement(List, { title: 'List Three' })
+	        myLists
 	    );
 	};
 	
+	var WholeSite = function WholeSite() {
+	    return React.createElement(Board, { title: 'Welcome to my board', lists: listContent });
+	};
+	
+	var listContent = [{
+	    listTitle: 'fruits',
+	    listCards: ['apples', 'oranges', 'bananas']
+	}, {
+	    listTitle: 'veggies',
+	    listCards: ['celery', 'lettuce', 'carrots']
+	}, {
+	    listTitle: 'snacks',
+	    listCards: ['chips', 'cookies', 'popsicles']
+	}];
+	
 	document.addEventListener('DOMContentLoaded', function () {
-	    ReactDOM.render(React.createElement(Board, { title: 'WELCOME TO MY BOARD' }), document.getElementById('app'));
+	    ReactDOM.render(React.createElement(WholeSite, null), document.getElementById('app'));
 	});
 
 /***/ },

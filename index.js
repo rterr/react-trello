@@ -4,44 +4,59 @@ var ReactDOM = require('react-dom');
 var Card = function(props) {
     return (
         <div className="card">
-            {props.text}
+            {props.text} 
         </div>
     );
 };
 
 var List = function(props) {
-    // var cards = [];
-    // for (var i=0; i<3; i++) {
-    //     cards.push(<Card />);
-    // }
+    var myCards = [];
+    for (var i=0; i<props.cards.length; i++) {
+        myCards.push(<Card text={props.cards[i]}/>);
+    }
     return (
         <div className="list">
           <div className="list-title">{props.title}</div>
-          {props.cards}
-            // <Card text="I am card one!" />
-            // <Card text="I am card two!" />
-            // <Card text="I am card three!" />
+          {myCards}
         </div>
     );
 };
 
 var Board = function(props) {
-    // var lists = [];
+    var myLists = [];
     // lists.push(<List title="List One" />);
-    // for (var i=0; i<3; i++) {
-    //     lists.push(<List />);
-    // }
+    for (var i=0; i<props.lists.length; i++) {
+        myLists.push(<List title={props.lists[i].listTitle} cards={props.lists[i].listCards} />);
+    }
     return (
         <div className="board">
           <div className="board-title">{props.title}</div>
-          {props.lists}
-            // <List title="List One" />
-            // <List title="List Two" />
-            // <List title="List Three" />
+          {myLists}
         </div>
     );
 };
 
+var WholeSite = function() {
+    return(
+        <Board title="Welcome to my board" lists={listContent}/>
+    );
+};
+
+var listContent = [
+    {
+        listTitle: 'fruits',
+        listCards: ['apples', 'oranges', 'bananas']
+    },
+    {
+        listTitle: 'veggies',
+        listCards: ['celery', 'lettuce', 'carrots']
+    },
+    {
+        listTitle: 'snacks',
+        listCards: ['chips', 'cookies', 'popsicles']
+    }
+]
+
 document.addEventListener('DOMContentLoaded', function() {
-    ReactDOM.render(<Board title="WELCOME TO MY BOARD" />, document.getElementById('app'));
+    ReactDOM.render(<WholeSite />, document.getElementById('app'));
 });
