@@ -49,40 +49,63 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 	
-	var Card = function Card() {
+	var Card = function Card(props) {
 	    return React.createElement(
 	        'div',
 	        { className: 'card' },
-	        'This is a card!'
+	        props.text
 	    );
 	};
 	
-	var List = function List() {
-	    var cards = [];
-	    for (var i = 0; i < 3; i++) {
-	        cards.push(React.createElement(Card, null));
-	    }
+	var List = function List(props) {
+	    // var cards = [];
+	    // for (var i=0; i<3; i++) {
+	    //     cards.push(<Card />);
+	    // }
 	    return React.createElement(
 	        'div',
 	        { className: 'list' },
-	        cards
+	        React.createElement(
+	            'div',
+	            { className: 'list-title' },
+	            props.title
+	        ),
+	        props.cards,
+	        '// ',
+	        React.createElement(Card, { text: 'I am card one!' }),
+	        '// ',
+	        React.createElement(Card, { text: 'I am card two!' }),
+	        '// ',
+	        React.createElement(Card, { text: 'I am card three!' })
 	    );
 	};
 	
-	var Board = function Board() {
-	    var lists = [];
-	    for (var i = 0; i < 3; i++) {
-	        lists.push(React.createElement(List, null));
-	    }
+	var Board = function Board(props) {
+	    // var lists = [];
+	    // lists.push(<List title="List One" />);
+	    // for (var i=0; i<3; i++) {
+	    //     lists.push(<List />);
+	    // }
 	    return React.createElement(
 	        'div',
 	        { className: 'board' },
-	        lists
+	        React.createElement(
+	            'div',
+	            { className: 'board-title' },
+	            props.title
+	        ),
+	        props.lists,
+	        '// ',
+	        React.createElement(List, { title: 'List One' }),
+	        '// ',
+	        React.createElement(List, { title: 'List Two' }),
+	        '// ',
+	        React.createElement(List, { title: 'List Three' })
 	    );
 	};
 	
 	document.addEventListener('DOMContentLoaded', function () {
-	    ReactDOM.render(React.createElement(Board, null), document.getElementById('app'));
+	    ReactDOM.render(React.createElement(Board, { title: 'WELCOME TO MY BOARD' }), document.getElementById('app'));
 	});
 
 /***/ },

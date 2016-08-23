@@ -1,38 +1,47 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var Card = function() {
+var Card = function(props) {
     return (
         <div className="card">
-            This is a card!
+            {props.text}
         </div>
     );
 };
 
-var List = function() {
-    var cards = [];
-    for (var i=0; i<3; i++) {
-        cards.push(<Card />);
-    }
+var List = function(props) {
+    // var cards = [];
+    // for (var i=0; i<3; i++) {
+    //     cards.push(<Card />);
+    // }
     return (
         <div className="list">
-            {cards}
+          <div className="list-title">{props.title}</div>
+          {props.cards}
+            // <Card text="I am card one!" />
+            // <Card text="I am card two!" />
+            // <Card text="I am card three!" />
         </div>
     );
 };
 
-var Board = function() {
-    var lists = [];
-    for (var i=0; i<3; i++) {
-        lists.push(<List />);
-    }
+var Board = function(props) {
+    // var lists = [];
+    // lists.push(<List title="List One" />);
+    // for (var i=0; i<3; i++) {
+    //     lists.push(<List />);
+    // }
     return (
         <div className="board">
-            {lists}
+          <div className="board-title">{props.title}</div>
+          {props.lists}
+            // <List title="List One" />
+            // <List title="List Two" />
+            // <List title="List Three" />
         </div>
     );
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    ReactDOM.render(<Board />, document.getElementById('app'));
+    ReactDOM.render(<Board title="WELCOME TO MY BOARD" />, document.getElementById('app'));
 });
