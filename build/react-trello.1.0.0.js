@@ -62,6 +62,7 @@
 	    for (var i = 0; i < props.cards.length; i++) {
 	        myCards.push(React.createElement(Card, { text: props.cards[i] }));
 	    }
+	
 	    return React.createElement(
 	        'div',
 	        { className: 'list' },
@@ -70,16 +71,52 @@
 	            { className: 'list-title' },
 	            props.title
 	        ),
-	        myCards
+	        myCards,
+	        React.createElement(
+	            'div',
+	            null,
+	            React.createElement('input', { onChange: props.onAddInputChanged, type: 'text', name: 'list-input' }),
+	            React.createElement(
+	                'button',
+	                { onClick: props.onAddSubmit, name: 'list-button' },
+	                'Push Here'
+	            )
+	        )
 	    );
 	};
+	
+	var CardMaker = React.createClass({
+	    displayName: 'CardMaker',
+	
+	    getInitialState: function getInitialState() {
+	        return {};
+	    },
+	    onAddInputChanged: function onAddInputChanged() {
+	        console.log('I am changing the input!');
+	        // this.setState({
+	
+	        // });
+	    },
+	    onAddSubmit: function onAddSubmit(event) {
+	        console.log(event);
+	        event.preventDefault();
+	        console.log('I am pressing submit!');
+	        // this.setState({
+	
+	        // })
+	    },
+	    render: function render() {
+	        return React.createElement(List, { title: this.props.title, cards: this.props.cards, onAddSubmit: this.onAddSubmit, onAddInputChanged: this.onAddInputChanged });
+	    }
+	});
 	
 	var Board = function Board(props) {
 	    var myLists = [];
 	    // lists.push(<List title="List One" />);
 	    for (var i = 0; i < props.lists.length; i++) {
-	        myLists.push(React.createElement(List, { title: props.lists[i].listTitle, cards: props.lists[i].listCards }));
+	        myLists.push(React.createElement(CardMaker, { title: props.lists[i].listTitle, cards: props.lists[i].listCards }));
 	    }
+	
 	    return React.createElement(
 	        'div',
 	        { className: 'board' },
@@ -93,19 +130,19 @@
 	};
 	
 	var WholeSite = function WholeSite() {
+	    var listContent = [{
+	        listTitle: 'fruits',
+	        listCards: ['apples', 'oranges', 'bananas']
+	    }, {
+	        listTitle: 'veggies',
+	        listCards: ['celery', 'lettuce', 'carrots']
+	    }, {
+	        listTitle: 'snacks',
+	        listCards: ['chips', 'cookies', 'popsicles']
+	    }];
+	
 	    return React.createElement(Board, { title: 'Welcome to my board', lists: listContent });
 	};
-	
-	var listContent = [{
-	    listTitle: 'fruits',
-	    listCards: ['apples', 'oranges', 'bananas']
-	}, {
-	    listTitle: 'veggies',
-	    listCards: ['celery', 'lettuce', 'carrots']
-	}, {
-	    listTitle: 'snacks',
-	    listCards: ['chips', 'cookies', 'popsicles']
-	}];
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	    ReactDOM.render(React.createElement(WholeSite, null), document.getElementById('app'));
