@@ -73,40 +73,43 @@
 	        ),
 	        myCards,
 	        React.createElement(
-	            'div',
-	            null,
-	            React.createElement('input', { onChange: props.onAddInputChanged, type: 'text', name: 'list-input' }),
+	            'form',
+	            { onSubmit: props.onAddSubmit },
+	            React.createElement('input', { onChange: props.onAddInputChanged, type: 'text', value: props.value, name: 'list-input' }),
 	            React.createElement(
 	                'button',
-	                { onClick: props.onAddSubmit, name: 'list-button' },
+	                { name: 'list-button' },
 	                'Push Here'
 	            )
 	        )
 	    );
 	};
 	
-	var CardMaker = React.createClass({
-	    displayName: 'CardMaker',
+	var ListContainer = React.createClass({
+	    displayName: 'ListContainer',
 	
 	    getInitialState: function getInitialState() {
-	        return {};
+	        return {
+	            inputText: '',
+	            cardBox: this.props.initCards
+	        };
 	    },
-	    onAddInputChanged: function onAddInputChanged() {
-	        console.log('I am changing the input!');
-	        // this.setState({
-	
-	        // });
+	    onAddInputChanged: function onAddInputChanged(event) {
+	        this.setState({
+	            inputText: event.target.value
+	        });
 	    },
 	    onAddSubmit: function onAddSubmit(event) {
-	        console.log(event);
 	        event.preventDefault();
-	        console.log('I am pressing submit!');
-	        // this.setState({
-	
-	        // })
+	        var cardArray = this.state.cardBox.slice();
+	        cardArray.push(this.state.inputText);
+	        this.setState({
+	            cardBox: cardArray,
+	            inputText: ''
+	        });
 	    },
 	    render: function render() {
-	        return React.createElement(List, { title: this.props.title, cards: this.props.cards, onAddSubmit: this.onAddSubmit, onAddInputChanged: this.onAddInputChanged });
+	        return React.createElement(List, { value: this.state.inputText, title: this.props.title, cards: this.state.cardBox, onAddSubmit: this.onAddSubmit, onAddInputChanged: this.onAddInputChanged });
 	    }
 	});
 	
@@ -114,7 +117,7 @@
 	    var myLists = [];
 	    // lists.push(<List title="List One" />);
 	    for (var i = 0; i < props.lists.length; i++) {
-	        myLists.push(React.createElement(CardMaker, { title: props.lists[i].listTitle, cards: props.lists[i].listCards }));
+	        myLists.push(React.createElement(ListContainer, { title: props.lists[i].listTitle, initCards: props.lists[i].listCards }));
 	    }
 	
 	    return React.createElement(
@@ -134,7 +137,7 @@
 	        listTitle: 'fruits',
 	        listCards: ['apples', 'oranges', 'bananas']
 	    }, {
-	        listTitle: 'veggies',
+	        listTitle: 'veggieeees',
 	        listCards: ['celery', 'lettuce', 'carrots']
 	    }, {
 	        listTitle: 'snacks',

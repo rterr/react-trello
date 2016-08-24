@@ -4,7 +4,7 @@ var ReactDOM = require('react-dom');
 var Card = function(props) {
     return (
         <div className="card">
-            {props.text} 
+            {props.text}
         </div>
     );
 };
@@ -14,52 +14,55 @@ var List = function(props) {
     for (var i=0; i<props.cards.length; i++) {
         myCards.push(<Card text={props.cards[i]}/>);
     }
-    
+
     return (
         <div className="list">
           <div className="list-title">{props.title}</div>
           {myCards}
-          <div>
-              <input onChange={props.onAddInputChanged} type="text" name="list-input"/>
-              <button onClick={props.onAddSubmit} name="list-button">Push Here</button>
-          </div>
+          <form onSubmit={props.onAddSubmit}>
+              <input onChange={props.onAddInputChanged} type="text" value={props.value} name="list-input"/>
+              <button name="list-button">Push Here</button>
+          </form>
         </div>
 
     );
 };
 
-var CardMaker = React.createClass({
+var ListContainer = React.createClass({
     getInitialState: function() {
-        return {};
+        return {
+          inputText:'',
+          cardBox: this.props.initCards
+        }
 
     },
-    onAddInputChanged: function () {
-        console.log('I am changing the input!');
-        // this.setState({
-
-        // });
+    onAddInputChanged: function (event) {
+        this.setState({
+          inputText: event.target.value
+        });
     },
     onAddSubmit: function(event) {
-        console.log(event);
         event.preventDefault();
-        console.log('I am pressing submit!');
-        // this.setState({
-
-        // })
+        var cardArray = this.state.cardBox.slice();
+        cardArray.push(this.state.inputText);
+        this.setState({
+          cardBox: cardArray,
+          inputText: ''
+        })
     },
     render: function() {
         return (
-            <List title={this.props.title} cards={this.props.cards} onAddSubmit={this.onAddSubmit} onAddInputChanged={this.onAddInputChanged} />
+            <List value={this.state.inputText} title={this.props.title} cards={this.state.cardBox} onAddSubmit={this.onAddSubmit} onAddInputChanged={this.onAddInputChanged} />
         );
     }
 });
-
 
 var Board = function(props) {
     var myLists = [];
     // lists.push(<List title="List One" />);
     for (var i=0; i<props.lists.length; i++) {
-        myLists.push(<CardMaker title={props.lists[i].listTitle} cards={props.lists[i].listCards} />);
+        myLists.push(<ListContainer title={props.lists[i].listTitle} initCards={props.lists[i].listCards} />);
+
     }
 
     return (
@@ -77,7 +80,7 @@ var WholeSite = function() {
             listCards: ['apples', 'oranges', 'bananas']
         },
         {
-            listTitle: 'veggies',
+            listTitle: 'veggieeees',
             listCards: ['celery', 'lettuce', 'carrots']
         },
         {
